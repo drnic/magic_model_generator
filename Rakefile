@@ -10,10 +10,10 @@ require 'fileutils'
 include FileUtils
 require File.join(File.dirname(__FILE__), 'lib', 'magic_model_generator', 'version')
 
-AUTHOR = "Nic Williams"
-EMAIL = "your contact email for bug fixes and info"
-DESCRIPTION = "description of gem"
-RUBYFORGE_PROJECT = "magic_model_generator"
+AUTHOR = "Dr Nic Williams"
+EMAIL = "drnicwilliams@gmail.com"
+DESCRIPTION = "Generates Rails models from the target database... magically! Validations and associations included."
+RUBYFORGE_PROJECT = "magicmodels"
 HOMEPATH = "http://#{RUBYFORGE_PROJECT}.rubyforge.org"
 BIN_FILES = %w( magic_model )
 RELEASE_TYPES = %w( gem ) # can use: gem, tar, zip
@@ -21,7 +21,7 @@ RELEASE_TYPES = %w( gem ) # can use: gem, tar, zip
 
 NAME = "magic_model_generator"
 REV = File.read(".svn/entries")[/committed-rev="(d+)"/, 1] rescue nil
-VERS = ENV['VERSION'] || (MagicModelGenerator::VERSION::STRING + (REV ? ".#{REV}" : ""))
+VERS = ENV['VERSION'] || (MagicModelsGenerator::VERSION::STRING + (REV ? ".#{REV}" : ""))
 CLEAN.include ['**/.*.sw?', '*.gem', '.config']
 RDOC_OPTS = ['--quiet', '--title', "magic_model_generator documentation",
     "--opname", "index.html",
@@ -58,8 +58,8 @@ spec =
         s.require_path = "lib"
         s.autorequire = "magic_model_generator"
 
-        #s.add_dependency('activesupport', '>=1.3.1')
-        #s.required_ruby_version = '>= 1.8.2'
+        s.add_dependency('dr_nic_magic_models', '>=0.9.0')
+        s.required_ruby_version = '>= 1.8.4'
 
         s.files = %w(README CHANGELOG Rakefile ) + [NAME + '.rb'] +
           Dir.glob("{bin,doc,test,lib,templates,generator,extras,website,script}/**/*") + 

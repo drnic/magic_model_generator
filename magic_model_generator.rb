@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'pp'
+require 'dr_nic_magic_models'
 
 class Hash
   # lets through the keys in the argument
@@ -138,6 +139,7 @@ class MagicModelGenerator < Rails::Generator::DynamicNamedBase
   def initialize(runtime_args, runtime_options = {})
   	super
     require destination_root + '/config/boot'
+    require 'magic_model_generator'
     superklass ||= ActiveRecord::Base
     raise "No database connection" if !(@conn = superklass.connection)
     
@@ -168,8 +170,11 @@ class MagicModelGenerator < Rails::Generator::DynamicNamedBase
     	@models.each do |model_name|
 				attrs = load_attrs(model_name)
 
-        attrs['class_contents'] = '  # associations go here'
-
+        klass = class_name.constantize rescue next
+        
+        attrs['class_contents'] = MagicModelsGenerator::Validations.generate_validations(klass).join("\n  ")
+        Object.send(:remove_const, klass.to_s)
+        
 				# Check for class naming collisions.
 				m.class_collisions class_path, class_name, "#{class_name}Test"
 

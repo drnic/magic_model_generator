@@ -1,3 +1,3 @@
 class <%= class_name %> < <%= superklass %>
-<%= class_contents %>
+  <%= class_contents %>
 end
