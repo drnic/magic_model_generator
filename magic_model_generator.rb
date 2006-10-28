@@ -37,6 +37,7 @@ module Rails
   		attr_reader		:all_attrs,
   		              :name, :class_name, :singular_name, :plural_name, :table_name,
   		              :class_path, :file_path, :class_nesting, :class_nesting_depth
+      attr_accessor :superklass, :class_contents
   		alias_method  :file_name,  :singular_name
       attr_reader		:controller_name,
                     :controller_class_path,
@@ -52,7 +53,8 @@ module Rails
 
 			MODEL_ATTRS = %w(name class_name singular_name plural_name
 						table_name class_path file_path class_nesting
-						class_nesting_depth file_name singular_name)
+						class_nesting_depth file_name singular_name
+						superklass class_contents)
 			CONTROLLER_ATTRS = %w(controller_name controller_class_path 
 						controller_file_path controller_class_nesting
 						controller_class_nesting_depth controller_class_name 
@@ -82,6 +84,7 @@ module Rails
 			end
 
 			def assign_names!(name)
+        @superklass ||= ActiveRecord::Base
 				@name = name
 				base_name, @class_path, @file_path, @class_nesting, @class_nesting_depth = extract_modules(@name)
 				@class_name_without_nesting, @singular_name, @plural_name = inflect_names(base_name)
@@ -130,7 +133,7 @@ end
 class MagicModelGenerator < Rails::Generator::DynamicNamedBase
   default_options :skip_migration => true
 
-  attr_reader   :models, :superklass
+  attr_reader   :models
 
   def initialize(runtime_args, runtime_options = {})
   	super
@@ -164,6 +167,8 @@ class MagicModelGenerator < Rails::Generator::DynamicNamedBase
 
     	@models.each do |model_name|
 				attrs = load_attrs(model_name)
+
+        attrs['class_contents'] = '  # associations go here'
 
 				# Check for class naming collisions.
 				m.class_collisions class_path, class_name, "#{class_name}Test"
