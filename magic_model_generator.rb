@@ -1,3 +1,6 @@
+require 'rubygems'
+require 'pp'
+
 class Hash
   # lets through the keys in the argument
   # >> {:one => 1, :two => 2, :three => 3}.pass(:one)
@@ -127,13 +130,21 @@ end
 class MagicModelGenerator < Rails::Generator::DynamicNamedBase
   default_options :skip_migration => true
 
-  attr_reader   :models
+  attr_reader   :models, :superklass
 
   def initialize(runtime_args, runtime_options = {})
   	super
-    puts "Starting..."
-  	@models = %w(Bar Car Tar)
- 
+    require destination_root + '/config/boot'
+    superklass ||= ActiveRecord::Base
+    raise "No database connection" if !(@conn = superklass.connection)
+    
+    @table_names = @conn.tables.sort
+    
+    # Work out which tables are in the model and which aren't
+    @models = @table_names.map do |table_name|
+      superklass.class_name(table_name)
+    end
+
 		@models.each do |base_name|
 			load_attrs(base_name)
 			assign_names!(base_name)
