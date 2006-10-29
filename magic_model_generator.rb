@@ -40,7 +40,7 @@ class MagicModelGenerator < Rails::Generator::DynamicNamedBase
 
         klass = class_name.constantize rescue next
         
-        commands = MagicModelsGenerator::Schema.generate_associations(klass)
+        commands = MagicModelsGenerator::Schema.associations(klass)
         commands += MagicModelsGenerator::Validations.generate_validations(klass)
         attrs['class_contents'] = commands.join("\n  ")
         puts "Defining #{klass}..."
