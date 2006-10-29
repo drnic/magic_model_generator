@@ -12,16 +12,11 @@ class MagicModelGenerator < Rails::Generator::DynamicNamedBase
   def initialize(runtime_args, runtime_options = {})
   	super
     require destination_root + '/config/boot'
+    
     require 'magic_model_generator'
     superklass ||= ActiveRecord::Base
-    raise "No database connection" if !(@conn = superklass.connection)
-    
-    @table_names = @conn.tables.sort
-    
-    # Work out which tables are in the model and which aren't
-    @models = @table_names.map do |table_name|
-      superklass.class_name(table_name)
-    end
+    MagicModelsGenerator::Schema.superklass = superklass
+    @models = MagicModelsGenerator::Schema.models.keys
 
 		@models.each do |base_name|
 			load_attrs(base_name)
@@ -45,7 +40,9 @@ class MagicModelGenerator < Rails::Generator::DynamicNamedBase
 
         klass = class_name.constantize rescue next
         
-        attrs['class_contents'] = MagicModelsGenerator::Validations.generate_validations(klass).join("\n  ")
+        commands = MagicModelsGenerator::Schema.generate_associations(klass)
+        commands += MagicModelsGenerator::Validations.generate_validations(klass)
+        attrs['class_contents'] = commands.join("\n  ")
         Object.send(:remove_const, klass.to_s)
         
 				# Check for class naming collisions.
