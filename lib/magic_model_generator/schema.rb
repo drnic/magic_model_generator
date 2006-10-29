@@ -89,10 +89,6 @@ module MagicModelsGenerator
           #@@link_tables.keys.sort.each{|table_name| process_link_table(table_name) if @@link_tables[table_name]}
 				end
 
-				pp @@belongs_to_associations
-				pp @@has_some_associations
-				pp @@has_many_through_associations
-
 				models.each do |model_name, table_name|
 					@@belongs_to_associations[model_name] = []
 					@@has_some_associations[model_name] = []
@@ -101,9 +97,6 @@ module MagicModelsGenerator
 
 				models.each do |model_name, table_name|
           generate_associations(model_name, table_name)
-					pp @@belongs_to_associations[model_name]
-					pp @@has_some_associations[model_name]
-					pp @@has_many_through_associations[model_name]
         end
 
       end
@@ -131,7 +124,6 @@ module MagicModelsGenerator
         end
 
         column_names = @conn.columns(table_name).map{ |x| x.name}
-        pp column_names
         column_names.each do |column_name|
           next if not column_name =~ /_id$/
           logger.debug "Found FK column by suffix _id [#{column_name}]"
@@ -139,9 +131,7 @@ module MagicModelsGenerator
             logger.debug "Skipping, already processed"
             next
           end
-          puts "column_name: " + column_name
           has_some_klass = Inflector.classify(column_name.sub(/_id$/,"")).constantize rescue next
-          puts "has_some_klass: " + has_some_klass.to_s
           processed_columns[column_name] = { :has_some_klass => has_some_klass }
           begin
 	          processed_columns[column_name].merge! add_has_some_belongs_to(belongs_to_klass, column_name, has_some_klass)
@@ -150,7 +140,6 @@ module MagicModelsGenerator
 	        	next
 	       	end
         end
-        pp :processed_columns => processed_columns
 
         # is this a link table with attributes? (has_many through?)
         return if processed_columns.keys.length < 2
@@ -159,7 +148,7 @@ module MagicModelsGenerator
           processed_columns.keys.each do |key2|
             next if key1 == key2
 						has_some_class = processed_columns[key1][:has_some_class].to_s
-						@@has_many_through_associations[has_some_class] << 
+						@@has_many_through_associations[has_some_class] <<
 						  "has_many :#{processed_columns[key2][:belongs_to_name].to_s.pluralize.to_sym}, :through => #{processed_columns[key2][:has_some_name]}"
 						logger.debug @@has_many_through_associations[has_some_class].last
           end
@@ -173,23 +162,19 @@ module MagicModelsGenerator
           # is it a has_many, or a has_one? Well, let's assume a has_one has a unique index on the column please... good db design, haha!
           unique = belongs_to_klass.get_unique_index_columns.include?(belongs_to_fk)
           belongs_to_name = belongs_to_fk.sub(/_id$/, '').to_sym
-          puts "belongs_to_name: " + belongs_to_name.to_s
           @@belongs_to_associations[belongs_to_klass.to_s] << "belongs_to :#{belongs_to_name}, :class_name => '#{has_some_klass}', :foreign_key => :#{belongs_to_fk.to_sym}"
           logger.debug @@belongs_to_associations[belongs_to_klass.to_s].last
 
           # work out if we need a prefix
           has_some_name = ((unique ? belongs_to_klass.table_name.singularize : belongs_to_klass.table_name.pluralize) + (belongs_to_name.to_s == has_some_klass.table_name.singularize ? "" : "_as_"+belongs_to_name.to_s)).downcase.to_sym
-          puts "has_some_name: " + has_some_name.to_s
           method = unique ? :has_one : :has_many
           @@has_some_associations[has_some_klass.to_s] << "#{method} :#{has_some_name}, :class_name => '#{belongs_to_klass.to_s}', :foreign_key => :#{belongs_to_fk.to_sym}"
           logger.debug @@has_some_associations[has_some_klass.to_s].last
 
-          o = { :method => method,
+          return { :method => method,
           				 :belongs_to_name => belongs_to_name,
           				 :has_some_name => has_some_name,
           				 :has_some_class => has_some_klass  }
-          pp o
-          return o
 			end
 
     end
