@@ -43,7 +43,8 @@ class MagicModelGenerator < Rails::Generator::DynamicNamedBase
         commands = MagicModelsGenerator::Schema.generate_associations(klass)
         commands += MagicModelsGenerator::Validations.generate_validations(klass)
         attrs['class_contents'] = commands.join("\n  ")
-        Object.send(:remove_const, klass.to_s)
+        puts "Defining #{klass}..."
+        puts '  ' + attrs['class_contents']
         
 				# Check for class naming collisions.
 				m.class_collisions class_path, class_name, "#{class_name}Test"
@@ -55,6 +56,7 @@ class MagicModelGenerator < Rails::Generator::DynamicNamedBase
 
     	end
 
+      @models.each {|model| Object.send(:remove_const, model) rescue nil }
     end
   end
 

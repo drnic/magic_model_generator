@@ -43,7 +43,7 @@ module MagicModelsGenerator
         load_schema if @@models.nil?
       end
 
-      def load_schema(preload = false)
+      def load_schema
         return if ! @@models.nil?
 
         raise "No database connection" if !(@conn = superklass.connection)
@@ -66,49 +66,39 @@ module MagicModelsGenerator
           @@models[model_class_name] = table_name
           @@tables[table_name] = model_class_name
 
-          if preload
-            klass = model_class_name.constantize
+          # Process FKs?
+          if false && @conn.supports_fetch_foreign_keys?
 
-            # Process FKs?
-            if @conn.supports_fetch_foreign_keys?
-
-              tables.each do |table_name|
-                logger.debug "Getting FKs for #{table_name}"
-                @@fks_by_table[table_name] = Array.new
-                @conn.foreign_key_constraints(table_name).each do |fk|
-                  logger.debug "Got one: #{fk}"
-                  @@fks_by_table[table_name].push(fk)
-                end # do each fk
-
-              end # each table
-            end
-
-            # Try to work out our link tables now...
-            #@@models.keys.sort.each{|klass| process_table(@@models[klass.to_s])}
-            #@@link_tables.keys.sort.each{|table_name| process_link_table(table_name) if @@link_tables[table_name]}
+            tables.each do |table_name|
+              logger.debug "Getting FKs for #{table_name}"
+              @@fks_by_table[table_name] = Array.new
+              @conn.foreign_key_constraints(table_name).each do |fk|
+                logger.debug "Got one: #{fk}"
+                @@fks_by_table[table_name].push(fk)
+              end # do each fk
+            end # each table
           end
+
+          # Try to work out our link tables now...
+          #@@models.keys.sort.each{|klass| process_table(@@models[klass.to_s])}
+          #@@link_tables.keys.sort.each{|table_name| process_link_table(table_name) if @@link_tables[table_name]}
         end
 
       end
 
-      def generate_associations(klass)
-      	[]
-      end
-
-      def process_table(table_name)
-
+      def generate_associations(belongs_to_klass)
+				table_name = @@models[belongs_to_klass.to_s]
         logger.debug "Processing model table #{table_name}"
 
-        # ok, so let's look at the foreign keys on the table...
-        belongs_to_klass = @@tables[table_name].constantize rescue return
-
         processed_columns = Hash.new
+      	associations = []
 
+        # ok, so let's look at the foreign keys on the table...
         fks_on_table(table_name).each do |fk|
           logger.debug "Found FK column by suffix _id [#{fk.foreign_key}]"
           has_some_klass = Inflector.classify(fk.reference_table).constantize rescue next
           processed_columns[fk.foreign_key] = { :has_some_klass => has_some_klass }
-          processed_columns[fk.foreign_key].merge! add_has_some_belongs_to(belongs_to_klass, fk.foreign_key, has_some_klass) rescue next
+          processed_columns[fk.foreign_key].merge! add_has_some_belongs_to(associations, belongs_to_klass, fk.foreign_key, has_some_klass) rescue next
         end
 
         column_names = @conn.columns(table_name).map{ |x| x.name}
@@ -121,26 +111,23 @@ module MagicModelsGenerator
           end
           has_some_klass = Inflector.classify(column_name.sub(/_id$/,"")).constantize rescue next
           processed_columns[column_name] = { :has_some_klass => has_some_klass }
-          processed_columns[column_name].merge! add_has_some_belongs_to(belongs_to_klass, column_name, has_some_klass) rescue next
+          processed_columns[column_name].merge! add_has_some_belongs_to(associations, belongs_to_klass, column_name, has_some_klass) rescue next
         end
 
-        #TODO: what if same classes in table?
-
         # is this a link table with attributes? (has_many through?)
-        return if processed_columns.keys.length < 2
+        return associations if processed_columns.keys.length < 2
 
         processed_columns.keys.each do |key1|
           processed_columns.keys.each do |key2|
-           next if key1 == key2
-           logger.debug "\n*** #{processed_columns[key1][:has_some_class]}.send 'has_many', #{processed_columns[key2][:belongs_to_name].to_s.pluralize.to_sym}, :through => #{processed_columns[key2][:has_some_name]}\n\n"
-           processed_columns[key1][:has_some_class].send 'has_many', processed_columns[key2][:belongs_to_name].to_s.pluralize.to_sym, :through => processed_columns[key2][:has_some_name].to_sym
+						next if key1 == key2
+						associations << "has_many :#{processed_columns[key2][:belongs_to_name].to_s.pluralize.to_sym}, :through => #{processed_columns[key2][:has_some_name]}"
+						logger.debug associations.last
           end
         end
-
+        associations
       end
 
-
-      def add_has_some_belongs_to(belongs_to_klass, belongs_to_fk, has_some_klass)
+      def add_has_some_belongs_to(associations, belongs_to_klass, belongs_to_fk, has_some_klass)
 
           logger.debug "Trying to add a #{belongs_to_klass} belongs_to #{has_some_klass}..."
 
@@ -149,69 +136,22 @@ module MagicModelsGenerator
           unique = belongs_to_klass.get_unique_index_columns.include?(belongs_to_fk)
           belongs_to_name = belongs_to_fk.sub(/_id$/, '').to_sym
 
-          logger.debug "\n*** #{belongs_to_klass}.send 'belongs_to', #{belongs_to_name}, :class_name => #{has_some_klass}, :foreign_key => #{belongs_to_fk}\n"
-          belongs_to_klass.send(:belongs_to, belongs_to_name, :class_name => has_some_klass.to_s, :foreign_key => belongs_to_fk.to_sym)
+          associations << "belongs_to :#{belongs_to_name}, :class_name => '#{has_some_klass}', :foreign_key => :#{belongs_to_fk.to_sym}"
+          logger.debug associations.last
 
           # work out if we need a prefix
           has_some_name = ((unique ? belongs_to_klass.table_name.singularize : belongs_to_klass.table_name.pluralize) + (belongs_to_name.to_s == has_some_klass.table_name.singularize ? "" : "_as_"+belongs_to_name.to_s)).downcase.to_sym
           method = unique ? :has_one : :has_many
-          logger.debug "\n*** #{has_some_klass}.send(#{method}, #{has_some_name}, :class_name => #{belongs_to_klass.to_s}, :foreign_key => #{belongs_to_fk.to_sym})\n\n"
-          has_some_klass.send(method, has_some_name, :class_name => belongs_to_klass.to_s, :foreign_key => belongs_to_fk.to_sym)
+          associations << "#{method} :#{has_some_name}, :class_name => '#{belongs_to_klass.to_s}', :foreign_key => :#{belongs_to_fk.to_sym}"
+          logger.debug associations.last
 
-          return { :method => method, :belongs_to_name => belongs_to_name, :has_some_name => has_some_name, :has_some_class => has_some_klass  }
+          return { :method => method,
+          				 :belongs_to_name => belongs_to_name,
+          				 :has_some_name => has_some_name,
+          				 :has_some_class => has_some_klass  }
 
-      end
+			end
 
-      def process_link_table(table_name)
-
-        logger.debug "Processing link table #{table_name}"
-
-        classes_map = Hash.new
-        column_names = @conn.columns(table_name).map{ |x| x.name}
-
-        # use foreign keys first
-        fks_on_table(table_name).each do |fk|
-          logger.debug "Processing fk: #{fk}"
-          klass = Inflector.classify(fk.reference_table).constantize rescue logger.debug("Cannot find model #{class_name} for table #{fk.reference_table}") && return
-          classes_map[fk.foreign_key] = klass
-        end
-
-        logger.debug "Got #{classes_map.keys.length} references from FKs"
-
-        if classes_map.keys.length < 2
-
-          #Fall back on good ol _id recognition
-
-          column_names.each do |column_name|
-
-            # check we haven't processed by fks already
-            next if ! classes_map[column_name].nil?
-            referenced_table = column_name.sub(/_id$/, '')
-
-            begin
-              klass = Inflector.classify(referenced_table).constantize
-              # fall back on FKs here
-              if ! klass.nil?
-                classes_map[column_name] = klass
-              end
-            rescue
-            end
-          end
-        end
-
-        # not detected the link table?
-        logger.debug "Got #{classes_map.keys.length} references"
-        logger.debug "Cannot detect both tables referenced in link table" && return if classes_map.keys.length != 2
-
-        logger.debug "Adding habtm relationship"
-
-        logger.debug "\n*** #{classes_map[column_names[0]]}.send 'has_and_belongs_to_many', #{column_names[1].sub(/_id$/,'').pluralize.to_sym}, :class_name => #{classes_map[column_names[1]].to_s}, :join_table => #{table_name.to_sym}\n"
-        logger.debug "\n*** #{classes_map[column_names[1]]}.send 'has_and_belongs_to_many', #{column_names[0].sub(/_id$/,'').pluralize.to_sym}, :class_name => #{classes_map[column_names[0]].to_s}, :join_table => #{table_name.to_sym}\n\n"
-
-        classes_map[column_names[0]].send 'has_and_belongs_to_many', column_names[1].sub(/_id$/,'').pluralize.to_sym, :class_name => classes_map[column_names[1]].to_s, :join_table => table_name.to_sym
-        classes_map[column_names[1]].send 'has_and_belongs_to_many', column_names[0].sub(/_id$/,'').pluralize.to_sym, :class_name => classes_map[column_names[0]].to_s, :join_table => table_name.to_sym
-
-      end
     end
   end
 
