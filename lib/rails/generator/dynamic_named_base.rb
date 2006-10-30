@@ -1,12 +1,14 @@
+#require 'rails/generator/base'
+
 module Rails
   module Generator
   	class DynamicNamedBase < Rails::Generator::Base
-  		attr_reader		:all_attrs,
-  		              :name, :class_name, :singular_name, :plural_name, :table_name,
-  		              :class_path, :file_path, :class_nesting, :class_nesting_depth
+      attr_reader   :all_attrs,
+                    :name, :class_name, :singular_name, :plural_name, :table_name,
+                    :class_path, :file_path, :class_nesting, :class_nesting_depth
       attr_accessor :superklass, :class_contents
-  		alias_method  :file_name,  :singular_name
-      attr_reader		:controller_name,
+      alias_method  :file_name,  :singular_name
+      attr_reader   :controller_name,
                     :controller_class_path,
                     :controller_file_path,
                     :controller_class_nesting,
@@ -18,24 +20,23 @@ module Rails
       alias_method  :controller_table_name, :controller_plural_name
       #alias_method  :base_controller_file_path, :controller_file_path
 
-			@@model_attrs = %w(name class_name singular_name plural_name
-						table_name class_path file_path class_nesting
-						class_nesting_depth file_name singular_name
-						superklass class_contents)
-			@@controller_attrs = %w(controller_name controller_class_path 
-						controller_file_path controller_class_nesting
-						controller_class_nesting_depth controller_class_name 
-						controller_singular_name controller_plural_name)
+      @@model_attrs = %w(name class_name singular_name plural_name
+      			table_name class_path file_path class_nesting
+      			class_nesting_depth file_name singular_name
+      			superklass class_contents)
+      @@controller_attrs = %w(controller_name controller_class_path 
+      			controller_file_path controller_class_nesting
+      			controller_class_nesting_depth controller_class_name 
+      			controller_singular_name controller_plural_name)
 
-  		def initialize(runtime_args, runtime_options = {})
-  			super
-
-  			# No arguments are required.
-  			usage if runtime_args.length > 0
-
-  			@all_attrs = {}
-
-  		end
+      def initialize(runtime_args, runtime_options = {})
+        super
+        
+        # No arguments are required.
+        usage if runtime_args.length > 0
+        
+        @all_attrs = {}
+      end
 
 		protected
 			def load_attrs(key)

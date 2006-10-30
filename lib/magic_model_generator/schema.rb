@@ -48,8 +48,8 @@ module MagicModelsGenerator
 
       def load_schema
         return if ! @@models.nil?
-
-        raise "No database connection" if !(@conn = superklass.connection)
+        @@superklass ||= ActiveRecord::Base
+        raise "No database connection" if !(@conn = @@superklass.connection)
 
         @@models = ModelHash.new
         @@tables = Hash.new
@@ -87,21 +87,25 @@ module MagicModelsGenerator
           # Try to work out our link tables now...
           #@@models.keys.sort.each{|klass| process_table(@@models[klass.to_s])}
           #@@link_tables.keys.sort.each{|table_name| process_link_table(table_name) if @@link_tables[table_name]}
-				end
-
-				models.each do |model_name, table_name|
-					@@belongs_to_associations[model_name] = []
-					@@has_some_associations[model_name] = []
-					@@has_many_through_associations[model_name] = []
-				end
-
-				models.each do |model_name, table_name|
+        end
+        
+        models.each do |model_name, table_name|
+          @@belongs_to_associations[model_name] = []
+          @@has_some_associations[model_name] = []
+          @@has_many_through_associations[model_name] = []
+        end
+        
+        puts "Loaded all models, now generating associations..."
+        
+        models.keys.sort.each do |model_name|
+          puts "Generating for #{model_name}..."
+          table_name = models[model_name]
           generate_associations(model_name, table_name)
         end
 
       end
 
-			# Used by the generator to access the association code lines for the generated class
+      # Used by the generator to access the association code lines for the generated class
       def associations(klass)
         @@belongs_to_associations[klass.to_s] +
         @@has_some_associations[klass.to_s] +
