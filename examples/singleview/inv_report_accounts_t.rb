@@ -1,0 +1,25 @@
+class InvReportAccountsT < ActiveRecord::Base
+  belongs_to :bill_run, :class_name => 'BillRun', :foreign_key => :bill_run_id
+  belongs_to :customer_node, :class_name => 'CustomerNode', :foreign_key => :customer_node_id
+  belongs_to :account, :class_name => 'Account', :foreign_key => :account_id
+  validates_presence_of :bill_run_id
+  validates_numericality_of :bill_run_id, :allow_nil => false, :only_integer => true
+  validates_presence_of :customer_node_id
+  validates_numericality_of :customer_node_id, :allow_nil => false, :only_integer => true
+  validates_presence_of :invoice_seqnr
+  validates_numericality_of :invoice_seqnr, :allow_nil => false, :only_integer => true
+  validates_presence_of :seqnr
+  validates_numericality_of :seqnr, :allow_nil => false, :only_integer => true
+  validates_presence_of :account_id
+  validates_numericality_of :account_id, :allow_nil => false, :only_integer => true
+  validates_length_of :general_1, :allow_nil => true, :maximum => 255
+  validates_length_of :general_2, :allow_nil => true, :maximum => 255
+  validates_length_of :general_3, :allow_nil => true, :maximum => 255
+  validates_length_of :general_4, :allow_nil => true, :maximum => 255
+  validates_length_of :general_5, :allow_nil => true, :maximum => 255
+  validates_length_of :general_6, :allow_nil => true, :maximum => 255
+  validates_length_of :general_7, :allow_nil => true, :maximum => 255
+  validates_length_of :general_8, :allow_nil => true, :maximum => 255
+  validates_length_of :general_9, :allow_nil => true, :maximum => 255
+  validates_length_of :general_10, :allow_nil => true, :maximum => 255
+end

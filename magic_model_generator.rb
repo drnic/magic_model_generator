@@ -42,7 +42,6 @@ class MagicModelGenerator < Rails::Generator::DynamicNamedBase
 
       @models.each do |model_name|
       begin
-        puts "Attribute loading for #{model_name}..."
         attrs = load_attrs(model_name)
 
         begin
@@ -80,10 +79,10 @@ protected
   end
 
   def add_options!(opt)
-    #opt.separator ''
-    #opt.separator 'Options:'
-    #opt.on("--skip-migration",
-    #       "Don't generate a migration file for this model") { |v| options[:skip_migration] = v }
+    opt.separator ''
+    opt.separator 'Options:'
+    opt.on("--no-throughs",
+           "Don't generate has_many :though relations") { |v| options[:no_throughs] = v }
   end
   
 end
