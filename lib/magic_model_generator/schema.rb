@@ -95,7 +95,7 @@ module MagicModelsGenerator
           @@has_many_through_associations[model_name] = []
         end
         
-        puts "Loaded all models, now generating associations..."
+        logger.debug "Loaded all models, now generating associations..."
         
         models.keys.sort.each do |model_name|
           puts "Generating for #{model_name}..."
@@ -162,7 +162,6 @@ module MagicModelsGenerator
 
       def add_has_some_belongs_to(belongs_to_klass, belongs_to_fk, has_some_klass)
           logger.debug "Trying to add a #{belongs_to_klass} belongs_to #{has_some_klass}..."
-          puts "Trying to add a #{belongs_to_klass} belongs_to #{has_some_klass}..."
 
           # so this is a belongs_to & has_some style relationship...
           # is it a has_many, or a has_one? Well, let's assume a has_one has a unique index on the column please... good db design, haha!
