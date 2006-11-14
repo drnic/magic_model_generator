@@ -154,7 +154,7 @@ module MagicModelsGenerator
             next if key1 == key2
 						has_some_class = processed_columns[key1][:has_some_class].to_s
 						@@has_many_through_associations[has_some_class] <<
-						  "has_many :#{processed_columns[key2][:belongs_to_name].to_s.pluralize.to_sym}, :through => #{processed_columns[key2][:has_some_name]}"
+						  "has_many :#{processed_columns[key2][:belongs_to_name].to_s.pluralize.to_sym}, :through => :#{processed_columns[key2][:has_some_name]}"
 						logger.debug @@has_many_through_associations[has_some_class].last
           end
         end
