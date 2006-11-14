@@ -15,7 +15,7 @@ EMAIL = "drnicwilliams@gmail.com"
 DESCRIPTION = "Generates Rails models from the target database... magically! Validations and associations included."
 RUBYFORGE_PROJECT = "magicmodels"
 HOMEPATH = "http://#{RUBYFORGE_PROJECT}.rubyforge.org"
-BIN_FILES = %w( magic_model )
+BIN_FILES = %w( )
 RELEASE_TYPES = %w( gem ) # can use: gem, tar, zip
 
 
