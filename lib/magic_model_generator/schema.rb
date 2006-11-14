@@ -1,3 +1,4 @@
+require 'pp'
 module MagicModelsGenerator
 
   class Schema
@@ -72,9 +73,8 @@ module MagicModelsGenerator
           @@tables[table_name] = model_class_name
 
           # Process FKs?
-          if false && @conn.supports_fetch_foreign_keys?
-
-            tables.each do |table_name|
+          if @conn.supports_fetch_foreign_keys?
+            table_names.each do |table_name|
               logger.debug "Getting FKs for #{table_name}"
               @@fks_by_table[table_name] = Array.new
               @conn.foreign_key_constraints(table_name).each do |fk|
@@ -120,6 +120,7 @@ module MagicModelsGenerator
         processed_columns = Hash.new
 
         # ok, so let's look at the foreign keys on the table...
+        
         fks_on_table(table_name).each do |fk|
           logger.debug "Found FK column by suffix _id [#{fk.foreign_key}]"
           has_some_klass = Inflector.classify(fk.reference_table).constantize rescue next
@@ -161,6 +162,7 @@ module MagicModelsGenerator
 
       def add_has_some_belongs_to(belongs_to_klass, belongs_to_fk, has_some_klass)
           logger.debug "Trying to add a #{belongs_to_klass} belongs_to #{has_some_klass}..."
+          puts "Trying to add a #{belongs_to_klass} belongs_to #{has_some_klass}..."
 
           # so this is a belongs_to & has_some style relationship...
           # is it a has_many, or a has_one? Well, let's assume a has_one has a unique index on the column please... good db design, haha!
