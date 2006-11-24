@@ -12,6 +12,7 @@ module MagicModelsGenerator
       validations = []
       klass.columns.
         reject { |column| column.name =~ /(?i)^(((created|updated)_(at|on))|position|type|id)$/ }.
+        reject { |column| column.name =~ /_id$/ }.
         each do |column|
         
         # Active record seems to interpolate booleans anyway to either true, false or nil...

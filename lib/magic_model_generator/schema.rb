@@ -83,10 +83,6 @@ module MagicModelsGenerator
               end # do each fk
             end # each table
           end
-
-          # Try to work out our link tables now...
-          #@@models.keys.sort.each{|klass| process_table(@@models[klass.to_s])}
-          #@@link_tables.keys.sort.each{|table_name| process_link_table(table_name) if @@link_tables[table_name]}
         end
         
         models.each do |model_name, table_name|
@@ -98,7 +94,7 @@ module MagicModelsGenerator
         logger.debug "Loaded all models, now generating associations..."
         
         models.keys.sort.each do |model_name|
-          puts "Generating for #{model_name}..."
+          logger.debug "Generating for #{model_name}..."
           table_name = models[model_name]
           generate_associations(model_name, table_name)
         end

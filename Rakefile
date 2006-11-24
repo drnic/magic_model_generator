@@ -56,9 +56,7 @@ spec =
         s.rubyforge_project = RUBYFORGE_PROJECT
         s.bindir = "bin"
         s.require_path = "lib"
-        s.autorequire = "magic_model_generator"
 
-        s.add_dependency('dr_nic_magic_models', '>=0.9.0')
         s.required_ruby_version = '>= 1.8.4'
 
         s.files = %w(README CHANGELOG Rakefile ) + [NAME + '.rb'] +

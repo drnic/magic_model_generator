@@ -4,5 +4,3 @@ end
 
 Dir[File.join(File.dirname(__FILE__), '**/*.rb')].sort.each { |lib| require lib }
 
-
-#require 'magic_model_generator/validations'
