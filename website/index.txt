@@ -54,6 +54,10 @@ h2. Related articles
 
 * Original release at RejectConf - 
 
+h3. Similar ideas
+
+* Generate models from "XSD files":http://www.web2expo.com/presentations/rails2007/burkhart_soren.pdf by Soren Burkhart at "RailsConf2007":http://www.web2expo.com/pub/w/51/presentations.html
+
 h3. The Magic Show at RejectConf
 
 <embed style="width:500px; height:426px;" id="VideoPlayback" type="application/x-shockwave-flash" src="http://video.google.com/googleplayer.swf?docId=-603944638448214790&#38;hl=en" flashvars=""> </embed>

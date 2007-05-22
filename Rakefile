@@ -29,6 +29,8 @@ RDOC_OPTS = ['--quiet', '--title', "magic_model_generator documentation",
     "--main", "README",
     "--inline-source"]
 
+DB_USER = ENV['DB_USER']
+
 class Hoe
   def extra_deps 
     @extra_deps.reject { |x| Array(x).first == 'hoe' } 
@@ -52,6 +54,8 @@ hoe = Hoe.new(GEM_NAME, VERS) do |p|
   #p.extra_deps     - An array of rubygem dependencies.
   #p.spec_extras    - A hash of extra values to set in the gemspec.
 end
+
+load 'tasks/build_db.rake'
 
 desc 'Generate website files'
 task :website_generate do

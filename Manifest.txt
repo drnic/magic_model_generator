@@ -15,6 +15,7 @@ lib/rails/generator/manifest.rb
 magic_model_generator.rb
 scripts/txt2html
 setup.rb
+tasks/db_build.rake
 templates/model.rb
 test/test_helper.rb
 test/test_magic_model_generator.rb
