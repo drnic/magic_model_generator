@@ -1,5 +1,3 @@
-#TODO: Use :dependent for FK cascade?
-
 module ActiveRecord
   class Base
     class << self

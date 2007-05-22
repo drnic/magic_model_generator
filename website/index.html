@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <link rel="stylesheet" href="stylesheets/screen.css" type="text/css" media="screen" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>
+      Magic Model Generator
+  </title>
+  <script src="javascripts/rounded_corners_lite.inc.js" type="text/javascript"></script>
+<style>
+
+</style>
+  <script type="text/javascript">
+    window.onload = function() {
+      settings = {
+          tl: { radius: 10 },
+          tr: { radius: 10 },
+          bl: { radius: 10 },
+          br: { radius: 10 },
+          antiAlias: true,
+          autoPad: true,
+          validTags: ["div"]
+      }
+      var versionBox = new curvyCorners(settings, document.getElementById("version"));
+      versionBox.applyCornersToAll();
+    }
+  </script>
+</head>
+<body>
+<div id="main">
+		<p><a href="/">&#x21A9; More Magic</a></p>
+    <h1 class=primary>Magic Model Generator</h1>
+    <div id="version" class="clickable" onclick='document.location = "http://rubyforge.org/projects/magicmodels"; return false'>
+      Get Version
+      <a href="http://rubyforge.org/projects/magicmodels" class="numbers">0.4.0</a>
+    </div>
+    <h1>./script/generate magic_model</h1>
+
+
+	<h2>What</h2>
+
+
+	<p>Imagine you get offered $5,000 to write a basic website/admin application on a legacy database that has 200 interconnected tables. You&#8217;ll need to add all the associations and validations based on the existing schema.</p>
+
+
+	<p>Imagine how long that would take! 1 day? 1 week? more?</p>
+
+
+	<p>Try 1 minute.</p>
+
+
+	<p>The Magic Model Generator does all this for you automatically.</p>
+
+
+	<h2>Installing</h2>
+
+
+	<p><pre class="syntax"><span class="global">$ </span><span class="ident">sudo</span> <span class="ident">gem</span> <span class="ident">install</span> <span class="ident">magic_model_generator</span></pre></p>
+
+
+	<h2>Quick demo</h2>
+
+
+	<p>Create a rails application, and point it to your database.</p>
+
+
+<pre>$ rails magic_show -d [mysql|sqlite|postgresql|oracle|etc|etc]
+$ cd magic_show
+$ cp database.yml.sample database.yml
+and point it to your database.yml to your legacy database
+</pre>
+
+	<p>In the video below I use the database created for the ActiveRecord test cases &#8211; <code>activerecord_unittest</code>. If you&#8217;ve never downloaded the activerecord gem, run:</p>
+
+
+<pre>$ rake build_[mysql|sqlite|postgresql|oracle|etc|etc]_databases
+$ rake test_[mysql|sqlite|postgresql|oracle|etc|etc]</pre>
+
+	<p>Now install the magic_model_generator gem:</p>
+
+
+<pre>$ sudo gem install magic_model_generator</pre>
+
+	<p>By the way, that&#8217;s all the preparation I did for the video.</p>
+
+
+	<p>Now recreate the <code>schema.rb</code> file and the <code>schema_info</code> database table via</p>
+
+
+<pre>$ rake db:migrate</pre>.
+
+	<p>Finally, run the generator:</p>
+
+
+<pre>$ ./script/generate magic_model</pre>
+
+	<h3>Coming</h3>
+
+
+	<p>Currently rails_generators cannot merge results into existing files, only skip or overwrite. I am investigating a fix for this so that you can use the <span class="caps">MMG</span> for iterative development.</p>
+
+
+	<h2>Related articles</h2>
+
+
+	<ul>
+	<li>Original release at RejectConf -</li>
+	</ul>
+
+
+	<h3>The Magic Show at RejectConf</h3>
+
+
+<embed style="width:500px; height:426px;" id="VideoPlayback" type="application/x-shockwave-flash" src="http://video.google.com/googleplayer.swf?docId=-603944638448214790&#38;hl=en" flashvars=""> </embed>
+
+	<h2>Dr Nic&#8217;s Blog</h2>
+
+
+	<p><a href="http://www.drnicwilliams.com">http://www.drnicwilliams.com</a> &#8211; for future announcements and
+other stories and things.</p>
+
+
+	<h2>Forum</h2>
+
+
+	<p>Discussion about the Magic Multi-Connections is on the Magic Models forum:</p>
+
+
+	<p><a href="http://groups.google.com/group/magicmodels">http://groups.google.com/group/magicmodels</a></p>
+
+
+	<h2>Licence</h2>
+
+
+	<p>This code is free to use under the terms of the <span class="caps">MIT</span> licence.</p>
+
+
+	<h2>Contact</h2>
+
+
+	<p>Comments are welcome. Send an email to <a href="mailto:drnicwilliams@gmail.com">Dr Nic Williams</a>.</p>
+    <p class="coda">
+      <a href="mailto:drnicwilliams@gmail.com">Dr Nic</a>, 22nd May 2007<br>
+      Theme extended from <a href="http://rb2js.rubyforge.org/">Paul Battley</a>
+    </p>
+</div>
+
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-567811-2";
+urchinTracker();
+</script>
+
+</body>
+</html>

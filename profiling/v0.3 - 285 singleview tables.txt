@@ -1339,7 +1339,7 @@ Building model XpsiUpdateCapture...
   0.02  5164.22      1.08     2720     0.40    10.32  Enumerable.each_with_index
   0.02  5165.28      1.06     2459     0.43     0.43  OCIDefine#set_handle
   0.02  5166.33      1.05     3124     0.34     0.40  ERB::Compiler::Buffer#push
-  0.02  5167.37      1.04      150     6.96   405.82  MagicModelsGenerator::Schema#add_has_some_belongs_to
+  0.02  5167.37      1.04      150     6.96   405.82  MagicModelGenerator::Schema#add_has_some_belongs_to
   0.02  5168.41      1.03    10206     0.10     0.10  Kernel.respond_to?
   0.02  5169.43      1.02      761     1.34     1.52  OCI8::Cursor#initialize
   0.02  5170.44      1.02     1210     0.84     1.41  Class#read_inheritable_attribute
@@ -1407,7 +1407,7 @@ Building model XpsiUpdateCapture...
   0.01  5210.55      0.39     1664     0.23     0.23  String#split
   0.01  5210.94      0.39     2393     0.16     0.16  ActiveRecord::ConnectionAdapters::Column#number?
   0.01  5211.32      0.38     1751     0.22     0.22  Array#size
-  0.01  5211.69      0.38     1151     0.33     0.33  MagicModelsGenerator::Schema#logger
+  0.01  5211.69      0.38     1151     0.33     0.33  MagicModelGenerator::Schema#logger
   0.01  5212.07      0.37     1362     0.27     0.48  Process.times
   0.01  5212.44      0.37      953     0.39     0.67  Kernel.puts
   0.01  5212.81      0.37     2840     0.13     0.13  StringScanner#eos?
@@ -1422,7 +1422,7 @@ Building model XpsiUpdateCapture...
   0.01  5215.90      0.33      681     0.48     0.48  Kernel.class
   0.01  5216.23      0.33     1362     0.24     0.24  Struct::Tms#utime
   0.01  5216.55      0.31     2112     0.15     0.15  TrueClass#to_s
-  0.01  5216.86      0.31       91     3.44     3.44  MagicModelsGenerator::ModelHash#enquired?
+  0.01  5216.86      0.31       91     3.44     3.44  MagicModelGenerator::ModelHash#enquired?
   0.01  5217.17      0.31     2720     0.11     0.11  Kernel.iterator?
   0.01  5217.47      0.30      284     1.05     1.21  ERB#set_eoutvar
   0.01  5217.77      0.30     3408     0.09     0.09  StringScanner#scan
@@ -1460,11 +1460,11 @@ Building model XpsiUpdateCapture...
   0.00  5225.08      0.17      416     0.41     0.41  #<Object:0x34a0f30>.fix_type
   0.00  5225.25      0.17     1522     0.11     0.11  Array#initialize
   0.00  5225.42      0.17      284     0.61     3.31  ERB#result
-  0.00  5225.59      0.17       91     1.88  3996.56  MagicModelsGenerator::Schema#generate_associations
+  0.00  5225.59      0.17       91     1.88  3996.56  MagicModelGenerator::Schema#generate_associations
   0.00  5225.76      0.17      239     0.72     0.91  DrNicMagicModels::ModelHash#enquired?
-  0.00  5225.93      0.17      286     0.60   428.51  MagicModelsGenerator::Validations.generate_validations
+  0.00  5225.93      0.17      286     0.60   428.51  MagicModelGenerator::Validations.generate_validations
   0.00  5226.10      0.17     1362     0.12     0.12  Struct::Tms#stime
-  0.00  5226.26      0.16       89     1.76     1.76  MagicModelsGenerator::Schema#fks_on_table
+  0.00  5226.26      0.16       89     1.76     1.76  MagicModelGenerator::Schema#fks_on_table
   0.00  5226.42      0.16      239     0.66     0.72  DrNicMagicModels::Schema#models
   0.00  5226.57      0.16      605     0.26   335.05  Module#module_eval
   0.00  5226.73      0.16      120     1.30     6.80  Object#load
@@ -1484,10 +1484,10 @@ Building model XpsiUpdateCapture...
   0.00  5228.56      0.12      340     0.37     0.46  Comparable.>=
   0.00  5228.68      0.12      682     0.18     0.18  Hash#keys
   0.00  5228.81      0.12     1704     0.07     0.07  String#dump
-  0.00  5228.92      0.11      286     0.39     0.77  MagicModelsGenerator::Schema#associations
+  0.00  5228.92      0.11      286     0.39     0.77  MagicModelGenerator::Schema#associations
   0.00  5229.03      0.11     2726     0.04     0.04  Module#to_s
   0.00  5229.14      0.11      120     0.92     0.92  Exception#blame_file!
-  0.00  5229.25      0.11       91     1.21     4.65  MagicModelsGenerator::ModelHash#[]
+  0.00  5229.25      0.11       91     1.21     4.65  MagicModelGenerator::ModelHash#[]
   0.00  5229.36      0.11     1074     0.10     0.10  Array#flatten
   0.00  5229.47      0.11     1362     0.08     0.08  Struct::Tms#cutime
   0.00  5229.58      0.11       79     1.38     1.38  DrNicMagicModels::Inflector#post_class_creation
@@ -1582,7 +1582,7 @@ Building model XpsiUpdateCapture...
   0.00  5233.98      0.02      120     0.13     2.62  MissingSourceFile#from_message
   0.00  5234.00      0.02       27     0.59     0.59  XpsiUpdateCapture#primary_key
   0.00  5234.02      0.02     1681     0.01     0.01  Fixnum#to_s
-  0.00  5234.03      0.02      286     0.06     0.06  MagicModelsGenerator.logger
+  0.00  5234.03      0.02      286     0.06     0.06  MagicModelGenerator.logger
   0.00  5234.05      0.02      284     0.05     0.22  Array#eql?
   0.00  5234.06      0.02      285     0.05     0.05  String#*
   0.00  5234.08      0.02      418     0.04     0.04  Array#&
@@ -1858,7 +1858,7 @@ Building model XpsiUpdateCapture...
   0.00  5234.09      0.00        1     0.00     0.00  DilReference#table_name
   0.00  5234.09      0.00        1     0.00 40140.00  Rails::Generator::Manifest#replay
   0.00  5234.09      0.00        1     0.00     0.00  ContractHistory#table_name
-  0.00  5234.09      0.00       91     0.00     0.00  MagicModelsGenerator::Schema#models
+  0.00  5234.09      0.00       91     0.00     0.00  MagicModelGenerator::Schema#models
   0.00  5234.09      0.00        1     0.00     0.00  GlCodeHistory#table_name
   0.00  5234.09      0.00        1     0.00     0.00  AccountTypeVariable#table_name
   0.00  5234.09      0.00        5     0.00     0.00  T2EmfInfo#primary_key

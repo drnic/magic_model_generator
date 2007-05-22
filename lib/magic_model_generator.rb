@@ -1,4 +1,4 @@
-module MagicModelsGenerator
+module MagicModelGenerator
   def self.logger; @@logger ||= RAILS_DEFAULT_LOGGER rescue Logger.new(STDERR); end
 end
 

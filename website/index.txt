@@ -1,0 +1,79 @@
+h1. Magic Model Generator
+
+h1. ./script/generate magic_model
+
+
+h2. What
+
+Imagine you get offered $5,000 to write a basic website/admin application on a legacy database that has 200 interconnected tables. You'll need to add all the associations and validations based on the existing schema. 
+
+Imagine how long that would take! 1 day? 1 week? more?
+
+Try 1 minute.
+
+The Magic Model Generator does all this for you automatically.
+
+h2. Installing
+
+<pre syntax="ruby">$ sudo gem install magic_model_generator</pre>
+
+h2. Quick demo
+
+Create a rails application, and point it to your database.
+
+<pre>$ rails magic_show -d [mysql|sqlite|postgresql|oracle|etc|etc]
+$ cd magic_show
+$ cp database.yml.sample database.yml
+and point it to your database.yml to your legacy database
+</pre>
+
+In the video below I use the database created for the ActiveRecord test cases &#8211; <code>activerecord_unittest</code>. If you&#8217;ve never downloaded the activerecord gem, run:
+
+<pre>$ rake build_[mysql|sqlite|postgresql|oracle|etc|etc]_databases
+$ rake test_[mysql|sqlite|postgresql|oracle|etc|etc]</pre>
+
+Now install the magic_model_generator gem:
+
+<pre>$ sudo gem install magic_model_generator</pre>
+
+By the way, that&#8217;s all the preparation I did for the video.
+
+Now recreate the <code>schema.rb</code> file and the <code>schema_info</code> database table via 
+
+<pre>$ rake db:migrate</pre>.
+
+Finally, run the generator:
+
+<pre>$ ./script/generate magic_model</pre>
+
+h3. Coming
+
+Currently rails_generators cannot merge results into existing files, only skip or overwrite. I am investigating a fix for this so that you can use the MMG for iterative development.
+
+h2. Related articles
+
+* Original release at RejectConf - 
+
+h3. The Magic Show at RejectConf
+
+<embed style="width:500px; height:426px;" id="VideoPlayback" type="application/x-shockwave-flash" src="http://video.google.com/googleplayer.swf?docId=-603944638448214790&#38;hl=en" flashvars=""> </embed>
+
+
+h2. Dr Nic's Blog
+
+"http://www.drnicwilliams.com":http://www.drnicwilliams.com - for future announcements and
+other stories and things.
+
+h2. Forum
+
+Discussion about the Magic Multi-Connections is on the Magic Models forum:
+
+"http://groups.google.com/group/magicmodels":http://groups.google.com/group/magicmodels
+
+h2. Licence
+
+This code is free to use under the terms of the MIT licence. 
+
+h2. Contact
+
+Comments are welcome. Send an email to "Dr Nic Williams":mailto:drnicwilliams@gmail.com.

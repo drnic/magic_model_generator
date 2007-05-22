@@ -1,0 +1,9 @@
+*** 0.4.0 / 2007-5-22
+
++ Official release (after RejectConf at RailsConf2007)
++ Added website
++ Converted rakefile to use Hoe
++ MagicModelsGenerate -> MagicModelGenerator
++ Added MIT license file
+Todo
++ No longer generates has_many :through back to itself 
