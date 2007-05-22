@@ -6,5 +6,3 @@
 + MagicModelsGenerate -> MagicModelsGenerator
 + Added MIT license file
 + Add AR connections/db_defn/fixtures
-Todo
-+ No longer generates has_many :through back to itself 
