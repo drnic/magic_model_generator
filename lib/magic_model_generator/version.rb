@@ -1,4 +1,4 @@
-module MagicModelGenerator #:nodoc:
+module MagicModelsGenerator #:nodoc:
   module VERSION #:nodoc:
     MAJOR = 0
     MINOR = 4

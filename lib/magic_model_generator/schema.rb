@@ -1,5 +1,5 @@
 require 'pp'
-module MagicModelGenerator
+module MagicModelsGenerator
 
   class Schema
     class << self
@@ -11,7 +11,7 @@ module MagicModelGenerator
       @@models = nil
 
       def logger
-        @@logger ||= MagicModelGenerator.logger
+        @@logger ||= MagicModelsGenerator.logger
       end
 
       def models

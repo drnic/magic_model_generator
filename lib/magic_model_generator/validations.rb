@@ -1,10 +1,10 @@
-module MagicModelGenerator
+module MagicModelsGenerator
   module Validations
 
     # Returns an array of strings describing validations for this class
     def self.generate_validations(klass)
 
-      logger = MagicModelGenerator.logger
+      logger = MagicModelsGenerator.logger
 
       # Code reworked from http://www.redhillconsulting.com.au/rails_plugins.html
       # Thanks Red Hill Consulting for using an MIT licence :o)
