@@ -16,8 +16,8 @@ class MagicModelGenerator < Rails::Generator::DynamicNamedBase
     
     require 'magic_model_generator'
     superklass ||= ActiveRecord::Base
-    MagicModelGenerator::Schema.superklass = superklass
-    @models = MagicModelGenerator::Schema.models.keys.sort
+    MagicModelsGenerator::Schema.superklass = superklass
+    @models = MagicModelsGenerator::Schema.models.keys.sort
 
     @models.each do |base_name|
       puts "Preparing #{base_name}..."
@@ -52,8 +52,8 @@ class MagicModelGenerator < Rails::Generator::DynamicNamedBase
           next
         end
         puts "Building model #{model_name}..."
-        commands = MagicModelGenerator::Schema.associations(klass)
-        commands += MagicModelGenerator::Validations.generate_validations(klass)
+        commands = MagicModelsGenerator::Schema.associations(klass)
+        commands += MagicModelsGenerator::Validations.generate_validations(klass)
         attrs['class_contents'] = commands.join("\n  ")
         
         # Check for class naming collisions.

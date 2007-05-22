@@ -3,7 +3,7 @@
 + Official release (after RejectConf at RailsConf2007)
 + Added website
 + Converted rakefile to use Hoe
-+ MagicModelsGenerate -> MagicModelGenerator
++ MagicModelsGenerate -> MagicModelsGenerator
 + Added MIT license file
 + Add AR connections/db_defn/fixtures
 Todo

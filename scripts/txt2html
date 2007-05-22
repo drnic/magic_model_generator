@@ -6,7 +6,7 @@ require 'syntax/convertors/html'
 require 'erb'
 require File.dirname(__FILE__) + '/../lib/magic_model_generator/version.rb'
 
-version  = MagicModelGenerator::VERSION::STRING
+version  = MagicModelsGenerator::VERSION::STRING
 download = 'http://rubyforge.org/projects/magicmodels'
 
 class Fixnum

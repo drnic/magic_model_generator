@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/test_helper.rb'
 
-class MagicModelGeneratorTest < Test::Unit::TestCase
+class MagicModelsGeneratorTest < Test::Unit::TestCase
 
   def setup
   end
