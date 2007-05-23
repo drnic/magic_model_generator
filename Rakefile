@@ -81,8 +81,9 @@ task :deploy => [:check_version, :website, :release] do
   
   puts "Remember to create SVN tag:"
   puts "svn copy svn+ssh://#{RUBYFORGE_USERNAME}@rubyforge.org/var/svn/#{RUBYFORGE_PROJECT}/#{NAME}/trunk " +
-    "svn+ssh://#{RUBYFORGE_USERNAME}@rubyforge.org/var/svn/#{RUBYFORGE_PROJECT}/#{NAME}/tags/REL-#{VERS} " +
-    "-m \"Tagging release #{version_changes}\""
+    "svn+ssh://#{RUBYFORGE_USERNAME}@rubyforge.org/var/svn/#{RUBYFORGE_PROJECT}/#{NAME}/tags/REL-#{VERS}"
+  puts "Notes:"
+  puts "Tagging release #{version_changes}"
 end
 
 desc 'Runs tasks website_generate and install_gem as a local deployment of the gem'
