@@ -1,3 +1,10 @@
+*** 0.4.2 / 2007-5-23
+
++ 1 minor DOH!! moment
+  + Changed dependency to dr_nic_magic_models (>=0.9.2)
++ 1 irrelevant improvement
+  + deploy task outputs the svn command to tag the release
+
 *** 0.4.1 / 2007-5-23
 
 + 1 minor bugfix
