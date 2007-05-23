@@ -1,3 +1,8 @@
+*** 0.4.1 / 2007-5-23
+
++ 1 minor bugfix
+  + Added dependency to dr_nic_magic_models (0.9.1) - this will be removed in future versions [thx Robbie Bingler]
+
 *** 0.4.0 / 2007-5-22
 
 + Official release (after RejectConf at RailsConf2007)

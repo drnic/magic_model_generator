@@ -51,7 +51,7 @@ hoe = Hoe.new(GEM_NAME, VERS) do |p|
 
   # == Optional
   p.changes = p.paragraphs_of("History.txt", 0..1).join("\n\n")
-  #p.extra_deps     - An array of rubygem dependencies.
+  p.extra_deps = [['dr_nic_magic_models','0.9.1']]  #An array of rubygem dependencies.
   #p.spec_extras    - A hash of extra values to set in the gemspec.
 end
 
