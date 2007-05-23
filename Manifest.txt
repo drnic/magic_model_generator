@@ -7,6 +7,7 @@ Rakefile
 lib/activerecord/base.rb
 lib/hash_tricks.rb
 lib/magic_model_generator.rb
+lib/magic_model_generator/ignorable.rb
 lib/magic_model_generator/schema.rb
 lib/magic_model_generator/validations.rb
 lib/magic_model_generator/version.rb

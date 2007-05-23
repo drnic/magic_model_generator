@@ -1,3 +1,8 @@
+*** 0.5.0 / 2007-5-23
+
++ 1 minor enhancement
+  + Started a list of ignorable tables: MagicModelGenerator::Ignorable.list - add to it in your environment.rb if you have other tables to ignore; or if its a commonly ignorable table name, tell me
+
 *** 0.4.2 / 2007-5-23
 
 + 1 minor DOH!! moment

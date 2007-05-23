@@ -61,6 +61,7 @@ module MagicModelsGenerator
         @@has_many_through_associations = Hash.new
 
         @@table_names = @conn.tables.sort
+        @@table_names -= Ignorable.list
 
         # Work out which tables are in the model and which aren't
         @@table_names.each do |table_name|
