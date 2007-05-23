@@ -77,17 +77,6 @@ task :website => [:website_generate, :website_upload]
 
 desc 'Release the website and new gem version'
 task :deploy => [:check_version, :website, :release] do
-  # Create SVN tag
-  # e.g.  svn copy svn+ssh://nicwilliams@rubyforge.org/var/svn/magicmodels/magic_model_generator/trunk
-  # svn+ssh://nicwilliams@rubyforge.org/var/svn/magicmodels/magic_model_generator/tags/REL-#{VERS} 
-  puts "Remember to create SVN tag:"
-  puts "svn copy svn+ssh://#{RUBYFORGE_USERNAME}@rubyforge.org/var/svn/#{RUBYFORGE_PROJECT}/#{NAME}/trunk " +
-    "svn+ssh://#{RUBYFORGE_USERNAME}@rubyforge.org/var/svn/#{RUBYFORGE_PROJECT}/#{NAME}/tags/REL-#{VERS} " +
-    "-m \"Tagging release #{VERS}\""
-end
-
-desc 'Runs tasks website_generate and install_gem as a local deployment of the gem'
-task :local_deploy => [:website_generate, :install_gem] do
   version_changes = hoe.paragraphs_of("History.txt", 0..1).join("\n\n")
   
   puts "Remember to create SVN tag:"
@@ -95,6 +84,9 @@ task :local_deploy => [:website_generate, :install_gem] do
     "svn+ssh://#{RUBYFORGE_USERNAME}@rubyforge.org/var/svn/#{RUBYFORGE_PROJECT}/#{NAME}/tags/REL-#{VERS} " +
     "-m \"Tagging release #{version_changes}\""
 end
+
+desc 'Runs tasks website_generate and install_gem as a local deployment of the gem'
+task :local_deploy => [:website_generate, :install_gem]
 
 task :check_version do
   unless ENV['VERSION']
