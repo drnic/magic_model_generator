@@ -1,0 +1,2 @@
+* Discover primary keys/composite primary keys and set_primary_key[s] if not equal to default id col name for that table.
+* Plugins/env.rb snippets can hook into generator process to embed additional code (e.g. for hobo_models)

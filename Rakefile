@@ -15,6 +15,8 @@ AUTHOR = "Dr Nic Williams"  # can also be an array of Authors
 EMAIL = "drnicwilliams@gmail.com"
 DESCRIPTION = "Generates Rails models from the target database... magically! Validations and associations included."
 GEM_NAME = "magic_model_generator" # what ppl will type to install your gem
+config = YAML.load(File.read(File.expand_path("~/.rubyforge/user-config.yml")))
+RUBYFORGE_USERNAME = config["username"]
 RUBYFORGE_PROJECT = "magicmodels" # The unix name for your project
 RUBYFORGE_USERNAME = "nicwilliams"
 HOMEPATH = "http://#{RUBYFORGE_PROJECT}.rubyforge.org"
@@ -23,7 +25,7 @@ HOMEPATH = "http://#{RUBYFORGE_PROJECT}.rubyforge.org"
 NAME = "magic_model_generator"
 REV = nil # UNCOMMENT IF REQUIRED: File.read(".svn/entries")[/committed-rev="(d+)"/, 1] rescue nil
 VERS = ENV['VERSION'] || (MagicModelsGenerator::VERSION::STRING + (REV ? ".#{REV}" : ""))
-CLEAN.include ['**/.*.sw?', '*.gem', '.config', 'debug.log']
+CLEAN.include ['**/.*.sw?', '*.gem', '.config','debug.log','*.db','logfile','.DS_Store']
 RDOC_OPTS = ['--quiet', '--title', "magic_model_generator documentation",
     "--opname", "index.html",
     "--line-numbers", 
@@ -56,6 +58,10 @@ hoe = Hoe.new(GEM_NAME, VERS) do |p|
   #p.spec_extras    - A hash of extra values to set in the gemspec.
 end
 
+CHANGES = hoe.paragraphs_of('History.txt', 0..1).join("\n\n")
+PATH    = RUBYFORGE_PROJECT
+hoe.remote_rdoc_dir = File.join(PATH.gsub(/^#{RUBYFORGE_PROJECT}\/?/,''), 'rdoc')
+
 load 'tasks/build_db.rake'
 
 desc 'Generate website files'
@@ -69,21 +75,19 @@ task :website_upload do
   host = "#{config["username"]}@rubyforge.org"
   remote_dir = "/var/www/gforge-projects/#{RUBYFORGE_PROJECT}/#{GEM_NAME}/"
   local_dir = 'website'
-  sh %{rsync -av --delete #{local_dir}/ #{host}:#{remote_dir}}
+  sh %{rsync -aCv --delete #{local_dir}/ #{host}:#{remote_dir}}
 end
 
 desc 'Generate and upload website files'
 task :website => [:website_generate, :website_upload]
 
 desc 'Release the website and new gem version'
-task :deploy => [:check_version, :website, :release] do
-  version_changes = hoe.paragraphs_of("History.txt", 0..1).join("\n\n")
-  
+task :deploy => [:check_version, :website, :publish_docs, :release] do
   puts "Remember to create SVN tag:"
-  puts "svn copy svn+ssh://#{RUBYFORGE_USERNAME}@rubyforge.org/var/svn/#{RUBYFORGE_PROJECT}/#{NAME}/trunk " +
-    "svn+ssh://#{RUBYFORGE_USERNAME}@rubyforge.org/var/svn/#{RUBYFORGE_PROJECT}/#{NAME}/tags/REL-#{VERS}"
-  puts "Notes:"
-  puts "Tagging release #{version_changes}"
+  puts "svn copy svn+ssh://#{RUBYFORGE_USERNAME}@rubyforge.org/var/svn/#{PATH}/trunk " +
+    "svn+ssh://#{RUBYFORGE_USERNAME}@rubyforge.org/var/svn/#{PATH}/tags/REL-#{VERS} "
+  puts "Suggested comment:"
+  puts "Tagging release #{CHANGES}"
 end
 
 desc 'Runs tasks website_generate and install_gem as a local deployment of the gem'

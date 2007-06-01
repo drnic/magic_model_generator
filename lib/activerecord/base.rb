@@ -3,6 +3,8 @@ module ActiveRecord
     class << self
       public
         def get_unique_index_columns
+          p self.connection
+          p self.methods.sort
             self.connection.indexes(self.table_name, "#{self.name} Indexes").select { |index| index.unique && index.columns.size == 1 }.map{ |index| index.columns.first }
         end
     end
