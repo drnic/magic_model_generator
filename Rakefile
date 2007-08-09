@@ -18,7 +18,6 @@ GEM_NAME = "magic_model_generator" # what ppl will type to install your gem
 config = YAML.load(File.read(File.expand_path("~/.rubyforge/user-config.yml")))
 RUBYFORGE_USERNAME = config["username"]
 RUBYFORGE_PROJECT = "magicmodels" # The unix name for your project
-RUBYFORGE_USERNAME = "nicwilliams"
 HOMEPATH = "http://#{RUBYFORGE_PROJECT}.rubyforge.org"
 
 

@@ -13,6 +13,8 @@ Try 1 minute.
 
 The Magic Model Generator does all this for you automatically.
 
+<pre>$ ruby script/generate magic_model</pre>
+
 h2. Installing
 
 <pre syntax="ruby">$ sudo gem install magic_model_generator</pre>

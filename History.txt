@@ -1,7 +1,8 @@
-== 0.X.Y
+== TRUNK
 
-* 1 dev improvement
+* 2 dev improvement
   * Rakefile cleanup
+  * Removed some puts/p statements
 * 1 website improvement
   * Added "8 steps for fixing other people’s code" to website/index.txt
 
