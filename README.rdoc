@@ -1,6 +1,8 @@
 = magic_model_generator
 
-* http://magicmodels.rubyforge.org/magic_model_generator/
+NOTE: this is an old project that is undergoing restoration for Rails 2.3+ I will make public announcements on http://rubyflow.com when its back alive and working.
+
+* http://magicmodels.rubyforge.org/magic_model_generator
 
 == DESCRIPTION:
 
