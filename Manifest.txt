@@ -4,7 +4,6 @@ Manifest.txt
 PostInstall.txt
 README.rdoc
 Rakefile
-Rakefile.orig
 examples/singleview/account.rb
 examples/singleview/account_history.rb
 examples/singleview/account_reservation.rb
@@ -296,7 +295,6 @@ features/support/env.rb
 lib/activerecord/base.rb
 lib/hash_tricks.rb
 lib/magic_model_generator.rb
-lib/magic_model_generator.rb.10813.0
 lib/magic_model_generator/ignorable.rb
 lib/magic_model_generator/schema.rb
 lib/magic_model_generator/validations.rb
@@ -307,10 +305,7 @@ magic_model_generator.rb
 script/console
 script/destroy
 script/generate
-scripts/txt2html
-spec/magic_model_generator_spec.rb
-spec/spec.opts
-spec/spec_helper.rb
+script/txt2html
 tasks/build_db.rake
 tasks/rspec.rake
 templates/model.rb

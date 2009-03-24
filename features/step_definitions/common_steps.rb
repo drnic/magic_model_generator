@@ -23,7 +23,7 @@ end
 
 When /^'(.*)' generator is invoked with arguments '(.*)'$/ do |generator, arguments|
   @stdout = StringIO.new
-  FileUtils.chdir(@active_project_folder) do
+  in_project_folder do
     if Object.const_defined?("APP_ROOT")
       APP_ROOT.replace(FileUtils.pwd)
     else 
@@ -61,7 +61,7 @@ end
 
 When /^task 'rake (.*)' is invoked$/ do |task|
   @stdout = File.expand_path(File.join(@tmp_root, "tests.out"))
-  FileUtils.chdir(@active_project_folder) do
+  in_project_folder do
     system "rake #{task} --trace > #{@stdout} 2> #{@stdout}"
   end
 end
@@ -148,7 +148,7 @@ end
 
 Then /^Rakefile can display tasks successfully/ do
   @stdout = File.expand_path(File.join(@tmp_root, "rakefile.out"))
-  FileUtils.chdir(@active_project_folder) do
+  in_project_folder do
     system "rake -T > #{@stdout} 2> #{@stdout}"
   end
   actual_output = File.read(@stdout)
